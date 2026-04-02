@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codexify — Global Digital Agency · Bangladesh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,200;12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════
+   ROOT & RESET
+════════════════════════════════════════ */
+:root {
+  --bg:      #04050F;
+  --bg2:     #060812;
+  --surface: #0A0D1E;
+  --card:    #0D1128;
+  --b:       rgba(255,255,255,0.07);
+  --b2:      rgba(255,255,255,0.12);
+  --blue:    #5B8FFF;
+  --indigo:  #7C5CFC;
+  --violet:  #A855F7;
+  --pink:    #EC4899;
+  --cyan:    #06B6D4;
+  --teal:    #14B8A6;
+  --lime:    #84CC16;
+  --amber:   #F59E0B;
+  --white:   #F1F5FF;
+  --muted:   #4B5680;
+  --dim:     #2A3060;
+  --r10:     10px;
+  --r16:     16px;
+  --r20:     20px;
+  --r24:     24px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{
+  background:var(--bg);color:var(--white);
+  font-family:'Bricolage Grotesque',sans-serif;
+  overflow-x:hidden;cursor:none;
+}
+a{text-decoration:none;cursor:none}
+button{cursor:none;font-family:inherit}
+img{display:block;max-width:100%}
+::selection{background:rgba(91,143,255,.3);color:#fff}
+
+/* ════════════════════════════════════════
+   SCROLLBAR
+════════════════════════════════════════ */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(var(--blue),var(--violet));
+  border-radius:4px;
+}
+
+/* ════════════════════════════════════════
+   CURSOR
+════════════════════════════════════════ */
+#cur-dot{
+  position:fixed;width:8px;height:8px;
+  background:#fff;border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .15s,height .15s,background .2s;
+  mix-blend-mode:difference;
+}
+#cur-trail{
+  position:fixed;width:36px;height:36px;
+  border:1.5px solid rgba(91,143,255,.6);
+  border-radius:50%;pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:transform .4s cubic-bezier(.2,1,.2,1);
+}
+body:has(a:hover) #cur-dot,
+body:has(button:hover) #cur-dot{width:20px;height:20px}
+
+/* ════════════════════════════════════════
+   GRAIN OVERLAY
+════════════════════════════════════════ */
+#grain{
+  position:fixed;inset:0;z-index:998;
+  pointer-events:none;opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23f)' opacity='1'/%3E%3C/svg%3E");
+  background-size:200px 200px;
+}
+
+/* ════════════════════════════════════════
+   BACKGROUND AURORA
+════════════════════════════════════════ */
+#aurora{
+  position:fixed;inset:0;z-index:0;
+  pointer-events:none;overflow:hidden;
+}
+.aurora-blob{
+  position:absolute;border-radius:50%;
+  filter:blur(140px);
+  will-change:transform;
+}
+.ab1{
+  width:800px;height:800px;
+  top:-300px;right:-200px;
+  background:radial-gradient(circle at 40% 40%,rgba(91,143,255,.22) 0%,transparent 65%);
+  animation:aurDrift 20s ease-in-out infinite;
+}
+.ab2{
+  width:700px;height:700px;
+  bottom:-250px;left:-180px;
+  background:radial-gradient(circle at 60% 60%,rgba(168,85,247,.18) 0%,transparent 65%);
+  animation:aurDrift 16s ease-in-out infinite reverse;
+  animation-delay:-8s;
+}
+.ab3{
+  width:500px;height:500px;
+  top:35%;left:40%;
+  background:radial-gradient(circle at 50% 50%,rgba(6,182,212,.12) 0%,transparent 65%);
+  animation:aurDrift 24s ease-in-out infinite;
+  animation-delay:-12s;
+}
+.ab4{
+  width:400px;height:400px;
+  bottom:20%;right:10%;
+  background:radial-gradient(circle at 50% 50%,rgba(236,72,153,.1) 0%,transparent 65%);
+  animation:aurDrift 18s ease-in-out infinite reverse;
+  animation-delay:-5s;
+}
+@keyframes aurDrift{
+  0%,100%{transform:translate(0,0) scale(1)}
+  25%{transform:translate(50px,-30px) scale(1.04)}
+  50%{transform:translate(-30px,60px) scale(.97)}
+  75%{transform:translate(40px,20px) scale(1.02)}
+}
+
+/* ════════════════════════════════════════
+   GRID DOTS
+════════════════════════════════════════ */
+#dots{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(91,143,255,.12) 1px,transparent 1px);
+  background-size:40px 40px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 40%,transparent 100%);
+}
+
+/* ════════════════════════════════════════
+   NAV
+════════════════════════════════════════ */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(1.5rem,4vw,5rem);
+  transition:background .4s,border-color .4s,backdrop-filter .4s;
+}
+#nav.scrolled{
+  background:rgba(4,5,15,.75);
+  backdrop-filter:blur(32px) saturate(1.6);
+  border-bottom:1px solid var(--b);
+}
+.nav-logo{display:flex;align-items:center;gap:11px}
+.nav-cx{width:36px;height:36px}
+.nav-wm{
+  font-family:'Syne',sans-serif;
+  font-size:1.2rem;font-weight:800;letter-spacing:-.03em;
+  background:linear-gradient(110deg,#fff 0%,#aac4ff 55%,#c49cff 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{
+  font-size:.8rem;font-weight:500;letter-spacing:.01em;
+  color:var(--muted);transition:color .25s;position:relative;
+}
+.nav-links a:hover{color:var(--white)}
+.nav-pill{
+  display:flex;align-items:center;gap:7px;
+  padding:8px 20px;border-radius:100px;
+  background:linear-gradient(135deg,rgba(91,143,255,.12),rgba(124,92,252,.12));
+  border:1px solid rgba(91,143,255,.22);
+  font-size:.76rem;font-weight:700;letter-spacing:.02em;
+  color:var(--white);
+  transition:border-color .25s,box-shadow .25s;
+}
+.nav-pill:hover{
+  border-color:rgba(91,143,255,.45);
+  box-shadow:0 0 28px rgba(91,143,255,.2);
+}
+.pulse-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--lime);
+  box-shadow:0 0 8px var(--lime);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+
+/* ════════════════════════════════════════
+   HERO
+════════════════════════════════════════ */
+#hero{
+  position:relative;z-index:1;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  text-align:center;
+  padding:120px clamp(1.5rem,6vw,8rem) 100px;
+  overflow:hidden;
+}
+
+/* Horizontal light beam */
+#hero::before{
+  content:'';
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:120%;height:1px;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    rgba(91,143,255,.15) 20%,
+    rgba(124,92,252,.3) 50%,
+    rgba(91,143,255,.15) 80%,
+    transparent 100%);
+  pointer-events:none;
+}
+
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(91,143,255,.07);
+  border:1px solid rgba(91,143,255,.18);
+  border-radius:100px;
+  padding:6px 18px;
+  font-family:'DM Mono',monospace;
+  font-size:.65rem;font-weight:400;letter-spacing:.18em;
+  text-transform:uppercase;color:rgba(170,196,255,.7);
+  margin-bottom:2.2rem;
+  animation:fadeSlideDown .8s ease both;
+}
+.hero-eyebrow::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--lime);box-shadow:0 0 10px var(--lime);
+  animation:pulse 2s infinite;
+}
+
+@keyframes fadeSlideDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+/* HERO HEADLINE */
+.hero-h{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(3.2rem,7.5vw,8rem);
+  font-weight:800;letter-spacing:-.05em;line-height:.96;
+  margin-bottom:2rem;
+}
+.hero-h .line1{
+  display:block;color:var(--white);
+  animation:fadeSlideUp .8s .1s ease both;
+}
+.hero-h .line2{
+  display:block;
+  background:linear-gradient(120deg,
+    var(--blue) 0%,
+    var(--indigo) 30%,
+    var(--violet) 60%,
+    var(--pink) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  background-size:300% 100%;
+  animation:fadeSlideUp .8s .2s ease both, gradMove 5s linear infinite;
+}
+.hero-h .line3{
+  display:block;color:rgba(241,245,255,.25);
+  animation:fadeSlideUp .8s .3s ease both;
+}
+@keyframes gradMove{
+  0%{background-position:0% 50%}
+  100%{background-position:300% 50%}
+}
+
+.hero-sub{
+  font-size:clamp(.9rem,1.5vw,1.15rem);
+  font-weight:300;line-height:1.9;
+  color:rgba(241,245,255,.45);
+  max-width:580px;
+  margin:0 auto 2.8rem;
+  animation:fadeSlideUp .8s .4s ease both;
+}
+.hero-sub em{color:rgba(241,245,255,.85);font-style:normal;font-weight:500}
+
+.hero-ctas{
+  display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap;
+  margin-bottom:4.5rem;
+  animation:fadeSlideUp .8s .5s ease both;
+}
+
+/* Primary CTA */
+.cta-main{
+  position:relative;overflow:hidden;
+  display:inline-flex;align-items:center;gap:10px;
+  padding:.9rem 2.2rem;
+  border-radius:12px;border:none;
+  background:linear-gradient(135deg,var(--blue),var(--indigo));
+  color:#fff;font-size:.9rem;font-weight:700;letter-spacing:.01em;
+  box-shadow:0 8px 40px rgba(91,143,255,.35),inset 0 1px 0 rgba(255,255,255,.15);
+  transition:transform .2s,box-shadow .2s;
+}
+.cta-main::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(255,255,255,.12),transparent);
+  pointer-events:none;
+}
+.cta-main:hover{
+  transform:translateY(-3px) scale(1.01);
+  box-shadow:0 16px 60px rgba(91,143,255,.5),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.cta-main .arr{
+  display:inline-block;
+  transition:transform .2s;
+}
+.cta-main:hover .arr{transform:translateX(4px)}
+
+/* Ghost CTA */
+.cta-ghost{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:.9rem 2.2rem;border-radius:12px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  color:rgba(241,245,255,.7);
+  font-size:.9rem;font-weight:500;
+  transition:background .2s,border-color .2s,color .2s;
+}
+.cta-ghost:hover{
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.2);
+  color:var(--white);
+}
+
+/* PARTNER BADGES */
+.hero-partners{
+  display:flex;align-items:center;gap:1.5rem;
+  justify-content:center;flex-wrap:wrap;
+  animation:fadeSlideUp .8s .65s ease both;
+}
+.hp-label{
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);
+}
+.hp-sep{width:1px;height:18px;background:var(--b2)}
+.hp-badge{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;padding:6px 15px;
+  font-size:.76rem;font-weight:600;
+  color:rgba(241,245,255,.5);
+  transition:border-color .2s,color .2s,box-shadow .2s;
+}
+.hp-badge:hover{
+  border-color:rgba(255,255,255,.18);
+  color:var(--white);
+  box-shadow:0 0 20px rgba(0,0,0,.3);
+}
+.hpb-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.d-b44{background:var(--blue);box-shadow:0 0 8px var(--blue)}
+.d-lv{background:var(--violet);box-shadow:0 0 8px var(--violet)}
+
+/* SCROLL INDICATOR */
+.scroll-ind{
+  position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  animation:fadeSlideUp .8s .9s ease both;
+}
+.scroll-ind span{
+  font-family:'DM Mono',monospace;
+  font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);
+}
+.scroll-mouse{
+  width:22px;height:34px;
+  border:1.5px solid rgba(255,255,255,.15);
+  border-radius:100px;
+  display:flex;justify-content:center;padding-top:6px;
+}
+.scroll-wheel{
+  width:3px;height:6px;background:var(--blue);
+  border-radius:3px;
+  animation:scrollW 2s ease-in-out infinite;
+}
+@keyframes scrollW{
+  0%{transform:translateY(0);opacity:1}
+  80%{transform:translateY(12px);opacity:0}
+  81%{transform:translateY(0);opacity:0}
+  100%{opacity:1}
+}
+
+/* ════════════════════════════════════════
+   MARQUEE STRIP
+════════════════════════════════════════ */
+.marquee-wrap{
+  position:relative;z-index:1;overflow:hidden;
+  background:var(--bg2);
+  border-top:1px solid var(--b);border-bottom:1px solid var(--b);
+  padding:.85rem 0;
+}
+.marquee-track{
+  display:flex;gap:0;
+  animation:marqueeRoll 28s linear infinite;
+  width:max-content;
+}
+.marquee-track:hover{animation-play-state:paused}
+@keyframes marqueeRoll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mi{
+  display:inline-flex;align-items:center;gap:.7rem;
+  padding:0 2.5rem;
+  font-family:'DM Mono',monospace;
+  font-size:.68rem;font-weight:400;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);
+  white-space:nowrap;
+}
+.mi .gem{
+  font-size:.9rem;
+  background:linear-gradient(135deg,var(--blue),var(--violet));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+/* ════════════════════════════════════════
+   SECTION BASICS
+════════════════════════════════════════ */
+.section{
+  position:relative;z-index:1;
+  padding:clamp(5rem,8vw,9rem) clamp(1.5rem,5vw,6rem);
+}
+.s-bg2{background:var(--bg2)}
+.s-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;font-weight:400;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--blue);
+  margin-bottom:.9rem;
+}
+.s-eyebrow::before{
+  content:'';width:20px;height:1px;
+  background:linear-gradient(90deg,var(--blue),transparent);
+}
+.s-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(1.9rem,3.5vw,3.2rem);
+  font-weight:800;letter-spacing:-.04em;line-height:1.08;
+  margin-bottom:.9rem;
+}
+.s-sub{
+  font-size:.95rem;font-weight:300;
+  color:rgba(241,245,255,.45);
+  line-height:1.9;max-width:520px;
+}
+
+/* ════════════════════════════════════════
+   MARQUEE NUMBERS (IMPACT SECTION)
+════════════════════════════════════════ */
+.impact-section{
+  position:relative;z-index:1;
+  padding:clamp(4rem,6vw,6rem) clamp(1.5rem,5vw,6rem);
+  background:var(--surface);
+  border-top:1px solid var(--b);
+  border-bottom:1px solid var(--b);
+}
+.impact-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:var(--b);
+}
+.impact-item{
+  padding:2.5rem 2rem;
+  background:var(--surface);
+  text-align:center;
+  transition:background .25s;
+}
+.impact-item:hover{background:var(--card)}
+.impact-num{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2rem,4vw,3.5rem);
+  font-weight:800;letter-spacing:-.04em;
+  line-height:1;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:.4rem;
+}
+.impact-lbl{
+  font-size:.72rem;font-weight:500;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);
+}
+
+/* ════════════════════════════════════════
+   WHY BD
+════════════════════════════════════════ */
+.why-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;
+  margin-top:4rem;
+}
+.why-text p{
+  font-size:.93rem;font-weight:300;line-height:1.95;
+  color:rgba(241,245,255,.5);margin-bottom:1rem;
+}
+.why-text p strong{color:var(--white);font-weight:600}
+.why-checks{
+  margin-top:2rem;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:.4rem .8rem;
+}
+.wc{
+  display:flex;align-items:center;gap:10px;
+  padding:.7rem;border-radius:10px;
+  font-size:.8rem;color:rgba(241,245,255,.55);
+  transition:background .2s,color .2s;
+}
+.wc:hover{background:var(--card);color:var(--white)}
+.wc-check{
+  width:20px;height:20px;flex-shrink:0;
+  border-radius:6px;
+  background:linear-gradient(135deg,rgba(91,143,255,.15),rgba(124,92,252,.15));
+  border:1px solid rgba(91,143,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.65rem;
+}
+
+.why-stats{display:flex;flex-direction:column;gap:1rem}
+.ws-card{
+  background:var(--card);
+  border:1px solid var(--b);
+  border-radius:20px;
+  padding:1.8rem 2rem;
+  position:relative;overflow:hidden;
+  transition:transform .3s,border-color .3s;
+}
+.ws-card::before{
+  content:'';
+  position:absolute;top:0;left:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--blue),var(--violet));
+  border-radius:2px 0 0 2px;
+  opacity:0;transition:opacity .3s;
+}
+.ws-card:hover{transform:translateX(6px);border-color:rgba(91,143,255,.2)}
+.ws-card:hover::before{opacity:1}
+.ws-n{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2rem,3.5vw,2.8rem);
+  font-weight:800;letter-spacing:-.04em;line-height:1;
+  background:linear-gradient(120deg,var(--blue),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;margin-bottom:.3rem;
+}
+.ws-l{font-size:.78rem;font-weight:400;color:var(--muted);line-height:1.5}
+
+/* ════════════════════════════════════════
+   PARTNERS
+════════════════════════════════════════ */
+.partners-section{background:var(--bg)}
+.partners-intro{text-align:center;margin-bottom:5rem}
+.partners-intro .s-eyebrow{justify-content:center}
+.partners-intro .s-sub{margin:0 auto;text-align:center}
+
+.p-cards{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:2rem;max-width:900px;margin:0 auto;
+}
+.pc{
+  position:relative;overflow:hidden;
+  border-radius:28px;
+  padding:3.5rem 3rem;
+  border:1px solid transparent;
+  background:var(--card);
+  transition:transform .35s cubic-bezier(.2,1,.2,1);
+}
+.pc:hover{transform:translateY(-10px)}
+
+.pc-b44{
+  background:linear-gradient(var(--card),var(--card)) padding-box,
+             linear-gradient(135deg,rgba(91,143,255,.3),rgba(6,182,212,.3)) border-box;
+}
+.pc-b44:hover{
+  box-shadow:0 30px 80px rgba(91,143,255,.12);
+}
+.pc-lv{
+  background:linear-gradient(var(--card),var(--card)) padding-box,
+             linear-gradient(135deg,rgba(168,85,247,.3),rgba(236,72,153,.3)) border-box;
+}
+.pc-lv:hover{
+  box-shadow:0 30px 80px rgba(168,85,247,.1);
+}
+
+/* glow top line */
+.pc::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;opacity:.9;
+}
+.pc-b44::before{background:linear-gradient(90deg,transparent 5%,var(--blue) 30%,var(--cyan) 70%,transparent 95%)}
+.pc-lv::before{background:linear-gradient(90deg,transparent 5%,var(--violet) 30%,var(--pink) 70%,transparent 95%)}
+
+/* ambient glow behind */
+.pc-glow{
+  position:absolute;top:-40%;right:-20%;
+  width:300px;height:300px;border-radius:50%;
+  opacity:.07;pointer-events:none;
+}
+.pc-b44 .pc-glow{background:radial-gradient(var(--blue),transparent)}
+.pc-lv  .pc-glow{background:radial-gradient(var(--violet),transparent)}
+
+.pc-icon{
+  width:68px;height:68px;border-radius:20px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;margin-bottom:1.8rem;
+}
+.pc-b44 .pc-icon{
+  background:linear-gradient(135deg,rgba(91,143,255,.12),rgba(6,182,212,.07));
+  border:1px solid rgba(91,143,255,.2);
+}
+.pc-lv .pc-icon{
+  background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(236,72,153,.07));
+  border:1px solid rgba(168,85,247,.2);
+}
+
+.pc-name{
+  font-family:'Syne',sans-serif;
+  font-size:1.5rem;font-weight:800;letter-spacing:-.03em;
+  margin-bottom:.2rem;
+}
+.pc-b44 .pc-name{
+  background:linear-gradient(120deg,var(--blue),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.pc-lv .pc-name{
+  background:linear-gradient(120deg,var(--violet),var(--pink));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.pc-role{
+  font-family:'DM Mono',monospace;
+  font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1.4rem;
+}
+.pc-desc{
+  font-size:.87rem;font-weight:300;line-height:1.85;
+  color:rgba(241,245,255,.45);
+}
+.pc-chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.4rem}
+.pc-chip{
+  font-family:'DM Mono',monospace;
+  font-size:.6rem;letter-spacing:.08em;
+  padding:3px 10px;border-radius:100px;
+  border:1px solid var(--b);color:var(--muted);
+  transition:color .2s,border-color .2s;
+}
+.pc:hover .pc-chip{color:rgba(241,245,255,.6);border-color:rgba(255,255,255,.1)}
+
+/* ════════════════════════════════════════
+   SERVICES
+════════════════════════════════════════ */
+.srv-head{
+  display:flex;justify-content:space-between;
+  align-items:flex-end;flex-wrap:wrap;gap:2rem;
+  margin-bottom:4rem;
+}
+.srv-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;
+}
+.srv-c{
+  background:var(--card);
+  border:1px solid var(--b);
+  border-radius:22px;
+  padding:2rem 1.8rem 1.8rem;
+  position:relative;overflow:hidden;
+  transition:transform .3s cubic-bezier(.2,1,.2,1),border-color .3s,box-shadow .3s;
+  group:true;
+}
+.srv-c:hover{
+  transform:translateY(-8px);
+  border-color:rgba(91,143,255,.18);
+  box-shadow:0 28px 70px rgba(0,0,0,.35);
+}
+/* top shimmer */
+.srv-c::before{
+  content:'';
+  position:absolute;top:0;left:-100%;right:-100%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(91,143,255,.5),transparent);
+  transition:left .4s;
+}
+.srv-c:hover::before{left:0;right:0}
+
+/* bottom subtle gradient */
+.srv-c::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;height:60px;
+  background:linear-gradient(to top,rgba(91,143,255,.03),transparent);
+  pointer-events:none;
+}
+
+.srv-num{
+  font-family:'DM Mono',monospace;
+  font-size:.58rem;letter-spacing:.16em;color:var(--muted);
+  margin-bottom:1.4rem;
+  transition:color .25s;
+}
+.srv-c:hover .srv-num{color:var(--blue)}
+
+.srv-icon{
+  width:50px;height:50px;border-radius:15px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;margin-bottom:1.3rem;
+  transition:transform .25s;
+}
+.srv-c:hover .srv-icon{transform:scale(1.1) rotate(-3deg)}
+.i1{background:rgba(91,143,255,.1);border:1px solid rgba(91,143,255,.15)}
+.i2{background:rgba(124,92,252,.1);border:1px solid rgba(124,92,252,.15)}
+.i3{background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.15)}
+.i4{background:rgba(236,72,153,.1);border:1px solid rgba(236,72,153,.15)}
+.i5{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.15)}
+.i6{background:rgba(132,204,22,.1);border:1px solid rgba(132,204,22,.15)}
+
+.srv-c h3{
+  font-family:'Syne',sans-serif;
+  font-size:1rem;font-weight:700;letter-spacing:-.01em;
+  margin-bottom:.5rem;
+}
+.srv-c p{font-size:.81rem;font-weight:300;line-height:1.75;color:var(--muted)}
+.srv-price{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-top:1.3rem;
+  font-family:'DM Mono',monospace;
+  font-size:.65rem;letter-spacing:.06em;
+  color:var(--blue);
+  background:rgba(91,143,255,.07);
+  border:1px solid rgba(91,143,255,.14);
+  border-radius:100px;padding:4px 12px;
+}
+
+/* ════════════════════════════════════════
+   TESTIMONIALS
+════════════════════════════════════════ */
+.testi-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;margin-top:4rem;
+}
+.testi-c{
+  background:var(--card);
+  border:1px solid var(--b);
+  border-radius:22px;
+  padding:2rem;
+  position:relative;
+  transition:transform .3s,border-color .3s;
+}
+.testi-c:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.1)}
+.testi-c::before{
+  content:'"';
+  position:absolute;top:1.2rem;right:1.5rem;
+  font-family:Georgia,serif;font-size:3.5rem;line-height:1;
+  color:rgba(91,143,255,.12);
+}
+.testi-stars{
+  display:flex;gap:3px;margin-bottom:1.2rem;
+  color:var(--amber);font-size:.82rem;
+}
+.testi-text{
+  font-size:.85rem;font-weight:300;line-height:1.8;
+  color:rgba(241,245,255,.55);margin-bottom:1.5rem;
+  font-style:italic;
+}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-av{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;
+  color:#fff;
+}
+.ta1{background:linear-gradient(135deg,var(--blue),var(--cyan))}
+.ta2{background:linear-gradient(135deg,var(--violet),var(--pink))}
+.ta3{background:linear-gradient(135deg,var(--teal),var(--lime))}
+.testi-name{font-size:.85rem;font-weight:700}
+.testi-role{font-size:.7rem;color:var(--muted);margin-top:2px}
+
+/* ════════════════════════════════════════
+   BD REACH
+════════════════════════════════════════ */
+.reach-inner{
+  max-width:720px;margin:0 auto;text-align:center;
+}
+.reach-map{
+  margin:3.5rem auto 0;
+  background:var(--card);
+  border:1px solid var(--b);
+  border-radius:28px;
+  padding:3rem;
+  position:relative;overflow:hidden;
+}
+.reach-map::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(91,143,255,.06),transparent 60%);
+}
+.rm-mono{
+  font-family:'DM Mono',monospace;
+  font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1.5rem;
+}
+.rm-flag{font-size:5.5rem;line-height:1;margin-bottom:1.5rem;
+  filter:drop-shadow(0 0 30px rgba(91,143,255,.3))}
+.city-grid{
+  display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;
+  margin-bottom:1.8rem;
+}
+.city{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(91,143,255,.07);
+  border:1px solid rgba(91,143,255,.15);
+  border-radius:100px;padding:5px 14px;
+  font-size:.75rem;font-weight:500;
+  color:rgba(241,245,255,.65);
+  transition:background .2s,color .2s,border-color .2s;
+}
+.city:hover{background:rgba(91,143,255,.14);color:var(--white);border-color:rgba(91,143,255,.3)}
+.city::before{
+  content:'';width:5px;height:5px;border-radius:50%;
+  background:var(--blue);box-shadow:0 0 6px var(--blue);
+  flex-shrink:0;
+}
+.phase-bar{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--b);
+  border-radius:12px;padding:.9rem 1.5rem;
+  font-family:'DM Mono',monospace;
+  font-size:.65rem;letter-spacing:.08em;
+  color:var(--muted);
+}
+.phase-bar strong{color:var(--cyan)}
+
+/* ════════════════════════════════════════
+   FINAL CTA
+════════════════════════════════════════ */
+.cta-section{
+  position:relative;z-index:1;
+  padding:clamp(5rem,8vw,9rem) clamp(1.5rem,5vw,6rem);
+  background:var(--bg);overflow:hidden;
+}
+.cta-section::before{
+  content:'';
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:800px;height:600px;
+  background:radial-gradient(ellipse,rgba(91,143,255,.07),transparent 65%);
+  pointer-events:none;
+}
+
+.cta-box{
+  max-width:780px;margin:0 auto;
+  background:linear-gradient(var(--card),var(--card)) padding-box,
+             linear-gradient(135deg,rgba(91,143,255,.25),rgba(168,85,247,.25)) border-box;
+  border:1px solid transparent;
+  border-radius:32px;
+  padding:clamp(3rem,5vw,5.5rem) clamp(2rem,4vw,4.5rem);
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+/* top beam */
+.cta-box::before{
+  content:'';
+  position:absolute;top:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--blue),var(--violet),transparent);
+}
+/* ambient */
+.cta-box::after{
+  content:'';
+  position:absolute;bottom:-40%;left:50%;transform:translateX(-50%);
+  width:400px;height:300px;border-radius:50%;
+  background:radial-gradient(var(--blue),transparent 70%);
+  opacity:.05;pointer-events:none;
+}
+
+.cta-box .s-eyebrow{justify-content:center;margin-bottom:1.5rem}
+.cta-box h2{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2rem,4vw,3.5rem);
+  font-weight:800;letter-spacing:-.04em;
+  margin-bottom:1rem;
+}
+.cta-em{
+  display:block;
+  background:linear-gradient(120deg,var(--blue),var(--violet),var(--pink));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  background-size:200%;
+  animation:gradMove 4s linear infinite;
+}
+.cta-box p{
+  font-size:.93rem;font-weight:300;line-height:1.9;
+  color:rgba(241,245,255,.45);
+  max-width:480px;margin:0 auto 2.8rem;
+}
+.cta-buttons{
+  display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  margin-bottom:2.5rem;
+}
+.wa-cta{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:.95rem 2.2rem;border-radius:12px;border:none;
+  background:linear-gradient(135deg,#25D366,#1db954);
+  color:#fff;font-size:.9rem;font-weight:700;
+  box-shadow:0 8px 40px rgba(37,211,102,.3);
+  transition:transform .2s,box-shadow .2s;
+}
+.wa-cta:hover{transform:translateY(-3px);box-shadow:0 16px 60px rgba(37,211,102,.45)}
+.cta-meta{
+  display:flex;align-items:center;justify-content:center;gap:2rem;
+  flex-wrap:wrap;
+}
+.cm{
+  display:flex;align-items:center;gap:6px;
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);
+}
+.cm::before{content:'✓';color:var(--lime);font-weight:700;font-size:.75rem}
+
+/* ════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════ */
+footer{
+  position:relative;z-index:1;
+  background:var(--bg2);
+  border-top:1px solid var(--b);
+  padding:4.5rem clamp(1.5rem,5vw,6rem) 2.5rem;
+}
+.foot-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:4rem;margin-bottom:3.5rem;
+}
+.fg-brand{display:flex;align-items:center;gap:11px;margin-bottom:1.1rem}
+.fg-wm{
+  font-family:'Syne',sans-serif;
+  font-size:1.2rem;font-weight:800;letter-spacing:-.03em;
+  background:linear-gradient(110deg,#fff,#aac4ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.fg-desc{
+  font-size:.8rem;font-weight:300;line-height:1.8;
+  color:rgba(241,245,255,.35);margin-bottom:1.4rem;
+}
+.fg-pw{display:flex;gap:.6rem}
+.fw-b{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--b);border-radius:8px;
+  padding:5px 12px;font-size:.68rem;font-weight:600;
+  color:rgba(241,245,255,.35);
+  transition:color .2s,border-color .2s;
+}
+.fw-b:hover{color:var(--white);border-color:rgba(255,255,255,.15)}
+.fn h4{
+  font-family:'DM Mono',monospace;
+  font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--blue);margin-bottom:1.2rem;
+}
+.fn a{
+  display:block;font-size:.8rem;font-weight:300;
+  color:rgba(241,245,255,.35);margin-bottom:.55rem;
+  transition:color .2s;
+}
+.fn a:hover{color:var(--white)}
+.foot-bottom{
+  border-top:1px solid var(--b);padding-top:1.8rem;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;
+}
+.fb-copy{
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;letter-spacing:.04em;
+  color:rgba(241,245,255,.2);
+}
+.fb-tags{display:flex;gap:.5rem}
+.fb-tag{
+  font-family:'DM Mono',monospace;
+  font-size:.58rem;letter-spacing:.08em;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--b);
+  border-radius:6px;padding:3px 10px;
+  color:rgba(241,245,255,.2);
+  transition:color .2s;
+}
+.fb-tag:hover{color:var(--white)}
+
+/* ════════════════════════════════════════
+   SCROLL ANIMATIONS
+════════════════════════════════════════ */
+.r{
+  opacity:0;transform:translateY(30px);
+  transition:opacity .75s cubic-bezier(.2,1,.2,1),transform .75s cubic-bezier(.2,1,.2,1);
+}
+.rl{opacity:0;transform:translateX(-30px);transition:opacity .75s cubic-bezier(.2,1,.2,1),transform .75s cubic-bezier(.2,1,.2,1)}
+.rr{opacity:0;transform:translateX(30px);transition:opacity .75s cubic-bezier(.2,1,.2,1),transform .75s cubic-bezier(.2,1,.2,1)}
+.r.in,.rl.in,.rr.in{opacity:1;transform:none}
+
+/* ════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════ */
+@media(max-width:1024px){
+  .why-grid{grid-template-columns:1fr}
+  .p-cards{grid-template-columns:1fr;max-width:460px}
+  .testi-grid{grid-template-columns:1fr 1fr}
+  .srv-grid{grid-template-columns:1fr 1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .impact-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+  .nav-links{display:none}
+  .why-checks{grid-template-columns:1fr}
+  .srv-grid{grid-template-columns:1fr}
+  .testi-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .impact-grid{grid-template-columns:1fr 1fr}
+  .hero-h{font-size:clamp(2.6rem,10vw,4rem)}
+  .cta-box{padding:2.5rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- System UI -->
+<div id="cur-dot"></div>
+<div id="cur-trail"></div>
+<div id="grain"></div>
+<div id="aurora">
+  <div class="aurora-blob ab1"></div>
+  <div class="aurora-blob ab2"></div>
+  <div class="aurora-blob ab3"></div>
+  <div class="aurora-blob ab4"></div>
+</div>
+<div id="dots"></div>
+
+<!-- ══════ NAV ══════ -->
+<nav id="nav">
+  <a class="nav-logo" href="#">
+    <svg class="nav-cx" viewBox="0 0 110 82" fill="none">
+      <defs>
+        <linearGradient id="navG" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#60A5FA"/>
+          <stop offset="50%" stop-color="#8B5CF6"/>
+          <stop offset="100%" stop-color="#E879F9"/>
+        </linearGradient>
+      </defs>
+      <path d="M50 8L15 8Q5 8 5 18L5 64Q5 74 15 74L50 74L50 62L20 62Q17 62 17 59L17 23Q17 20 20 20L50 20Z" fill="url(#navG)"/>
+      <path d="M57 8L70 8L83 28L96 8L108 8L91 41L108 74L95 74L82 54L69 74L56 74L75 41Z" fill="url(#navG)"/>
+    </svg>
+    <span class="nav-wm">Codexify</span>
+  </a>
+  <div class="nav-links">
+    <a href="#why">Why Bangladesh</a>
+    <a href="#partners">Partners</a>
+    <a href="#services">Services</a>
+    <a href="#reach">Reach</a>
+  </div>
+  <a href="#cta" class="nav-pill">
+    <span class="pulse-dot"></span>
+    Now Live in BD
+  </a>
+</nav>
+
+<!-- ══════ HERO ══════ -->
+<section id="hero">
+  <div class="hero-eyebrow">🌏 Global Digital Agency · Official Bangladesh Launch 2025</div>
+
+  <h1 class="hero-h">
+    <span class="line1">We Build Websites</span>
+    <span class="line2">That Close Deals</span>
+    <span class="line3">For Bangladesh</span>
+  </h1>
+
+  <p class="hero-sub">
+    Codexify is a <em>global digital agency</em> — now fully operational in Bangladesh. We combine world-class AI platforms with local market expertise to deliver premium websites and eCommerce stores that actually grow your business.
+  </p>
+
+  <div class="hero-ctas">
+    <a href="#cta" class="cta-main">
+      Start Your Project
+      <span class="arr">→</span>
+    </a>
+    <a href="#services" class="cta-ghost">Explore Services</a>
+  </div>
+
+  <div class="hero-partners">
+    <span class="hp-label">Powered by</span>
+    <div class="hp-sep"></div>
+    <div class="hp-badge"><span class="hpb-dot d-b44"></span> Base44</div>
+    <div class="hp-badge"><span class="hpb-dot d-lv"></span> Lovable</div>
+  </div>
+
+  <div class="scroll-ind">
+    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ══════ MARQUEE ══════ -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="mi"><span class="gem">✦</span> eCommerce Stores</span>
+    <span class="mi"><span class="gem">✦</span> Business Websites</span>
+    <span class="mi"><span class="gem">✦</span> Brand Identities</span>
+    <span class="mi"><span class="gem">✦</span> Powered by Base44</span>
+    <span class="mi"><span class="gem">✦</span> Built with Lovable</span>
+    <span class="mi"><span class="gem">✦</span> 48hr Delivery</span>
+    <span class="mi"><span class="gem">✦</span> Bangladesh 🇧🇩</span>
+    <span class="mi"><span class="gem">✦</span> WhatsApp Orders</span>
+    <span class="mi"><span class="gem">✦</span> Premium Quality</span>
+    <span class="mi"><span class="gem">✦</span> Landing Pages</span>
+    <span class="mi"><span class="gem">✦</span> eCommerce Stores</span>
+    <span class="mi"><span class="gem">✦</span> Business Websites</span>
+    <span class="mi"><span class="gem">✦</span> Brand Identities</span>
+    <span class="mi"><span class="gem">✦</span> Powered by Base44</span>
+    <span class="mi"><span class="gem">✦</span> Built with Lovable</span>
+    <span class="mi"><span class="gem">✦</span> 48hr Delivery</span>
+    <span class="mi"><span class="gem">✦</span> Bangladesh 🇧🇩</span>
+    <span class="mi"><span class="gem">✦</span> WhatsApp Orders</span>
+    <span class="mi"><span class="gem">✦</span> Premium Quality</span>
+    <span class="mi"><span class="gem">✦</span> Landing Pages</span>
+  </div>
+</div>
+
+<!-- ══════ IMPACT NUMBERS ══════ -->
+<div class="impact-section">
+  <div class="impact-grid">
+    <div class="impact-item r">
+      <div class="impact-num">120M+</div>
+      <div class="impact-lbl">Internet Users in BD</div>
+    </div>
+    <div class="impact-item r">
+      <div class="impact-num">$3B</div>
+      <div class="impact-lbl">eCommerce Market Size</div>
+    </div>
+    <div class="impact-item r">
+      <div class="impact-num">95%</div>
+      <div class="impact-lbl">SMBs Without Websites</div>
+    </div>
+    <div class="impact-item r">
+      <div class="impact-num">48hr</div>
+      <div class="impact-lbl">Average Delivery Time</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ WHY BD ══════ -->
+<section id="why" class="section s-bg2">
+  <div class="s-eyebrow r">Why Bangladesh</div>
+  <h2 class="s-title r">A Billion-Dollar Market<br>Still Untapped</h2>
+  <div class="why-grid">
+    <div class="why-text rl">
+      <p>Bangladesh has <strong>170 million people</strong>, a median age of 28, and a smartphone-first internet culture. Yet over <strong>95% of local businesses</strong> rely only on Facebook — with no website, no eCommerce, and no professional digital identity.</p>
+      <p>Codexify entered this market with a precise mission: give every shop, restaurant, and small brand access to the same digital infrastructure that global companies use. With our AI-powered platform partnerships, we deliver world-class quality in 48 hours.</p>
+      <p>This isn't charity — it's smart business. The market is massive, the need is real, and we are <strong>the agency that bridges the gap.</strong></p>
+      <div class="why-checks">
+        <div class="wc"><div class="wc-check">🌐</div>120M+ internet users</div>
+        <div class="wc"><div class="wc-check">📱</div>Mobile-first culture</div>
+        <div class="wc"><div class="wc-check">💳</div>bKash & Nagad ready</div>
+        <div class="wc"><div class="wc-check">📈</div>30% YoY market growth</div>
+        <div class="wc"><div class="wc-check">🏪</div>17M+ Facebook sellers</div>
+        <div class="wc"><div class="wc-check">🎯</div>Low premium competition</div>
+      </div>
+    </div>
+    <div class="why-stats rr">
+      <div class="ws-card">
+        <div class="ws-n">120M<span style="font-size:1.2rem">+</span></div>
+        <div class="ws-l">Active internet users — second-fastest growing user base in Asia</div>
+      </div>
+      <div class="ws-card">
+        <div class="ws-n">$3<span style="font-size:1.2rem">B</span></div>
+        <div class="ws-l">eCommerce market, growing at 30% annually — still in early innings</div>
+      </div>
+      <div class="ws-card">
+        <div class="ws-n">95<span style="font-size:1.2rem">%</span></div>
+        <div class="ws-l">of local SMBs have no professional website. We're changing that.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ PARTNERS ══════ -->
+<section id="partners" class="section partners-section">
+  <div class="partners-intro r">
+    <div class="s-eyebrow" style="justify-content:center">Technology Partners</div>
+    <h2 class="s-title">Backed by the World's<br>Most Powerful Platforms</h2>
+    <p class="s-sub">We don't build from scratch. We leverage cutting-edge AI platforms — delivering enterprise-grade results at startup speed.</p>
+  </div>
+  <div class="p-cards">
+    <div class="pc pc-b44 rl">
+      <div class="pc-glow"></div>
+      <div class="pc-icon">⚡</div>
+      <div class="pc-name">Base44</div>
+      <div class="pc-role">Core Development Platform</div>
+      <p class="pc-desc">AI-powered full-stack builder that powers every Codexify project from database architecture to deployment. What takes traditional developers weeks — we ship in 48 hours. Production-grade. Battle-tested.</p>
+      <div class="pc-chips">
+        <span class="pc-chip">AI-Powered</span>
+        <span class="pc-chip">Full-Stack</span>
+        <span class="pc-chip">Databases</span>
+        <span class="pc-chip">Real-time</span>
+        <span class="pc-chip">Auth</span>
+      </div>
+    </div>
+    <div class="pc pc-lv rr">
+      <div class="pc-glow"></div>
+      <div class="pc-icon">💜</div>
+      <div class="pc-name">Lovable</div>
+      <div class="pc-role">Frontend & UI Platform</div>
+      <p class="pc-desc">The world's leading AI-driven React frontend platform. Lovable powers the pixel-perfect, conversion-focused interfaces that make Codexify client sites feel like they came from a $200k/year design studio.</p>
+      <div class="pc-chips">
+        <span class="pc-chip">React</span>
+        <span class="pc-chip">AI Design</span>
+        <span class="pc-chip">Responsive</span>
+        <span class="pc-chip">Conversion</span>
+        <span class="pc-chip">UI/UX</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ SERVICES ══════ -->
+<section id="services" class="section s-bg2">
+  <div class="srv-head">
+    <div class="rl">
+      <div class="s-eyebrow">What We Build</div>
+      <h2 class="s-title">Complete Digital<br>Solutions</h2>
+    </div>
+    <p class="s-sub rr">Everything your business needs to dominate online — built faster and better than you imagined possible.</p>
+  </div>
+  <div class="srv-grid">
+    <div class="srv-c r">
+      <div class="srv-num">01 — Website</div>
+      <div class="srv-icon i1">🌐</div>
+      <h3>Business Website</h3>
+      <p>Premium, lightning-fast websites that build instant trust and turn visitors into paying customers around the clock.</p>
+      <div class="srv-price">From ৳3,500</div>
+    </div>
+    <div class="srv-c r">
+      <div class="srv-num">02 — eCommerce</div>
+      <div class="srv-icon i2">🛒</div>
+      <h3>eCommerce Store</h3>
+      <p>Full online stores with product catalogues, cart, WhatsApp checkout, payment integration, and an admin dashboard.</p>
+      <div class="srv-price">From ৳7,000</div>
+    </div>
+    <div class="srv-c r">
+      <div class="srv-num">03 — Identity</div>
+      <div class="srv-icon i3">🎨</div>
+      <h3>Brand Identity</h3>
+      <p>Logo systems, color palettes, and complete brand kits that position your business as the premium choice in your market.</p>
+      <div class="srv-price">From ৳2,500</div>
+    </div>
+    <div class="srv-c r">
+      <div class="srv-num">04 — Social</div>
+      <div class="srv-icon i4">📱</div>
+      <h3>Social Media Setup</h3>
+      <p>Facebook Business, Instagram, and WhatsApp Business fully set up and branded, with a week-one content strategy.</p>
+      <div class="srv-price">From ৳1,500</div>
+    </div>
+    <div class="srv-c r">
+      <div class="srv-num">05 — Conversion</div>
+      <div class="srv-icon i5">🎯</div>
+      <h3>Landing Pages</h3>
+      <p>High-converting single pages engineered for product launches, seasonal campaigns, and lead generation.</p>
+      <div class="srv-price">From ৳2,000</div>
+    </div>
+    <div class="srv-c r">
+      <div class="srv-num">06 — Retainer</div>
+      <div class="srv-icon i6">🔧</div>
+      <h3>Monthly Support</h3>
+      <p>Ongoing maintenance, content updates, and priority support — keeping your digital presence sharp every month.</p>
+      <div class="srv-price">From ৳800/mo</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ TESTIMONIALS ══════ -->
+<section class="section">
+  <div class="r" style="text-align:center;margin-bottom:1rem">
+    <div class="s-eyebrow" style="justify-content:center">Client Results</div>
+    <h2 class="s-title" style="text-align:center">Real Businesses.<br>Real Growth.</h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-c r">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Codexify made my clothing shop look like a proper international brand. Within the first week of launching my website, I got 3 new wholesale clients who found me on Google. Absolutely worth every taka."</p>
+      <div class="testi-author">
+        <div class="testi-av ta1">R</div>
+        <div>
+          <div class="testi-name">Raisul Islam</div>
+          <div class="testi-role">Owner, LuxeWear BD · Dhaka</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-c r">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Before Codexify I only sold through Facebook. Now my website handles orders 24/7 — the WhatsApp integration works perfectly. They delivered everything in less than 2 days. I was completely shocked."</p>
+      <div class="testi-author">
+        <div class="testi-av ta2">N</div>
+        <div>
+          <div class="testi-name">Nusrat Jahan</div>
+          <div class="testi-role">Fashion Seller · Chittagong</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-c r">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Our restaurant now gets online table reservations and delivery orders through the website every single day. The design looks more premium than restaurants in Dhaka charging 3x our price. Game changer."</p>
+      <div class="testi-author">
+        <div class="testi-av ta3">K</div>
+        <div>
+          <div class="testi-name">Karim Hossain</div>
+          <div class="testi-role">Owner, TasteBox Restaurant · Sylhet</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ REACH ══════ -->
+<section id="reach" class="section s-bg2">
+  <div class="reach-inner r">
+    <div class="s-eyebrow" style="justify-content:center">Geographic Coverage</div>
+    <h2 class="s-title" style="text-align:center">Serving All<br>of Bangladesh</h2>
+    <p class="s-sub" style="text-align:center;margin:0 auto">Remote-first delivery. Clients anywhere in Bangladesh served from Day 1.</p>
+    <div class="reach-map">
+      <div class="rm-mono">// Phase 1 Launch Zones — Bangladesh 🇧🇩</div>
+      <div class="rm-flag">🇧🇩</div>
+      <div class="city-grid">
+        <span class="city">Dhaka</span>
+        <span class="city">Chittagong</span>
+        <span class="city">Sylhet</span>
+        <span class="city">Rajshahi</span>
+        <span class="city">Khulna</span>
+        <span class="city">Comilla</span>
+        <span class="city">Barishal</span>
+        <span class="city">Mymensingh</span>
+        <span class="city">Narayanganj</span>
+        <span class="city">+ All 64 Districts</span>
+      </div>
+      <div class="phase-bar">
+        Phase 1 <strong>Launched Q2 2025</strong> &nbsp;·&nbsp; Phase 2 Regional Offices <strong>Q4 2025</strong> &nbsp;·&nbsp; Phase 3 Full National <strong>2026</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ CTA ══════ -->
+<section id="cta" class="cta-section">
+  <div class="cta-box r">
+    <div class="s-eyebrow" style="justify-content:center">Ready to Start?</div>
+    <h2>
+      Let's Build Something
+      <span class="cta-em">Extraordinary</span>
+    </h2>
+    <p>Join businesses across Bangladesh choosing Codexify to power their digital growth. Your first consultation is completely free — no pressure, no contracts.</p>
+    <div class="cta-buttons">
+      <a href="https://wa.me/880XXXXXXXXXX?text=Hi+Codexify!+I+want+to+start+a+project." class="wa-cta" target="_blank">
+        💬 WhatsApp Us Now
+      </a>
+      <a href="#services" class="cta-ghost">See Our Work</a>
+    </div>
+    <div class="cta-meta">
+      <span class="cm">Free consultation</span>
+      <span class="cm">Reply in 1 hour</span>
+      <span class="cm">48hr delivery</span>
+      <span class="cm">No contracts</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ FOOTER ══════ -->
+<footer>
+  <div class="foot-grid">
+    <div>
+      <div class="fg-brand">
+        <svg width="32" height="24" viewBox="0 0 110 82" fill="none">
+          <defs><linearGradient id="fG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#5B8FFF"/><stop offset="100%" stop-color="#8B5CF6"/></linearGradient></defs>
+          <path d="M50 8L15 8Q5 8 5 18L5 64Q5 74 15 74L50 74L50 62L20 62Q17 62 17 59L17 23Q17 20 20 20L50 20Z" fill="url(#fG)"/>
+          <path d="M57 8L70 8L83 28L96 8L108 8L91 41L108 74L95 74L82 54L69 74L56 74L75 41Z" fill="url(#fG)"/>
+        </svg>
+        <span class="fg-wm">Codexify</span>
+      </div>
+      <p class="fg-desc">A global digital agency officially operating in Bangladesh. We help local businesses compete at a world-class level through AI-powered web development and brand design.</p>
+      <div class="fg-pw">
+        <div class="fw-b"><span style="color:var(--blue)">⚡</span> Base44</div>
+        <div class="fw-b"><span style="color:var(--violet)">💜</span> Lovable</div>
+      </div>
+    </div>
+    <div class="fn">
+      <h4>Company</h4>
+      <a href="#">About Codexify</a>
+      <a href="#">Why Bangladesh</a>
+      <a href="#">Our Partners</a>
+      <a href="#">Press</a>
+    </div>
+    <div class="fn">
+      <h4>Services</h4>
+      <a href="#">Business Websites</a>
+      <a href="#">eCommerce Stores</a>
+      <a href="#">Brand Identity</a>
+      <a href="#">Landing Pages</a>
+    </div>
+    <div class="fn">
+      <h4>Connect</h4>
+      <a href="#">WhatsApp</a>
+      <a href="#">Facebook</a>
+      <a href="#">hello@codexify.agency</a>
+      <a href="#">Dhaka, Bangladesh 🇧🇩</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span class="fb-copy">© 2025 Codexify Digital Agency. All Rights Reserved. Global Operations · Bangladesh Division.</span>
+    <div class="fb-tags">
+      <span class="fb-tag">⚡ Base44</span>
+      <span class="fb-tag">💜 Lovable</span>
+      <span class="fb-tag">🇧🇩 Bangladesh</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── Cursor ── */
+const dot = document.getElementById('cur-dot');
+const trail = document.getElementById('cur-trail');
+let mx=window.innerWidth/2, my=window.innerHeight/2;
+let tx=mx, ty=my;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.left = mx+'px';
+  dot.style.top  = my+'px';
+});
+
+(function loop(){
+  tx += (mx-tx)*0.1;
+  ty += (my-ty)*0.1;
+  trail.style.left = tx+'px';
+  trail.style.top  = ty+'px';
+  requestAnimationFrame(loop);
+})();
+
+/* ── Nav scroll ── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* ── Scroll reveal ── */
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      ro.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.07, rootMargin:'0px 0px -40px 0px'});
+
+document.querySelectorAll('.r,.rl,.rr').forEach((el,i) => {
+  el.style.transitionDelay = (i%5)*0.07+'s';
+  ro.observe(el);
+});
+
+/* stagger grid children */
+['srv-grid','testi-grid','impact-grid','why-checks','why-stats','p-cards'].forEach(cls => {
+  document.querySelectorAll('.'+cls).forEach(grid => {
+    grid.children && [...grid.children].forEach((child,i) => {
+      if(!child.classList.contains('r') && !child.classList.contains('rl') && !child.classList.contains('rr')){
+        child.classList.add('r');
+        child.style.transitionDelay = i*0.08+'s';
+        ro.observe(child);
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
